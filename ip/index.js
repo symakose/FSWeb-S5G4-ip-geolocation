@@ -68,19 +68,18 @@ async function ipAdresimiAl() {
 //kodlar buraya gelecek
 // 1.adım
 
-const axios1 = () => {
-  axios
-    .get("https://apis.ergineer.com/ipgeoapi/88.230.20.21")
-    .then((response) => {
-      let data = response;
-      data
-        .map((veri) => {
-          cardOlustur(veri);
-        })
-        .forEach((veriler) => {});
-    });
-};
-axios1();
+//const axios1 = () => {
+//axios
+// .get("https://apis.ergineer.com/ipgeoapi/88.230.20.21")
+//.then((response) => {
+//let data = response.data;
+//cardOlustur(data);
+//})
+//.catch((error) => {
+// console.error("Oops Hata Aldınız", error);
+// });
+//};
+//axios1();
 //3.adım
 
 const bayrakOlustur = (bayrak) => {
@@ -89,8 +88,62 @@ const bayrakOlustur = (bayrak) => {
 
   const img = document.createElement("img");
   img.src = bayrak.data["ülkebayrağı"];
-  div1.appendChild("img");
+  div1.appendChild(img);
 
   const cardInfo1 = document.createElement("div");
   cardInfo1.classList.add("card-info");
+
+  const h3baslik = document.createElement("p");
+  h3baslik.classList.add("ip");
+  h3baslik.textContent = bayrak.data.sorgu;
+  cardInfo1.appendChild(h3baslik);
+
+  const ulkeler = document.createElement("p");
+  ulkeler.classList.add("ulke");
+  ulkeler.textContent = `${bayrak.data.ülke} (${bayrak.data.ülkeKodu})`;
+  cardInfo1.appendChild(ulkeler);
+
+  const enlemBoylam = document.createElement("p");
+  enlemBoylam.textContent = `Enlem: ${bayrak.data.enlem} Boylam: ${bayrak.data.boylam}`;
+  cardInfo1.appendChild(enlemBoylam);
+
+  const sehirler = document.createElement("p");
+  sehirler.textContent = `Şehir: ${bayrak.data.bölgeAdı}`;
+  cardInfo1.appendChild(sehirler);
+
+  const saatDilimi = document.createElement("p");
+  saatDilimi.textContent = `Saat Dilimi: ${bayrak.data.saatDilimi}`;
+  cardInfo1.appendChild(saatDilimi);
+
+  const paraBirimi = document.createElement("p");
+  paraBirimi.textContent = `Para Birimi: ${bayrak.data.paraBirimi}`;
+  cardInfo1.appendChild(paraBirimi);
+
+  const isp1 = document.createElement("p");
+  isp1.textContent = `ISP: ${bayrak.data.isp1}`;
+  cardInfo1.appendChild(isp1);
+
+  div1.appendChild(cardInfo1);
+  return div1;
 };
+bayrakOlustur();
+// 4.adım
+const div2 = document.querySelector("div.cards");
+
+// 5.adım
+
+const axios2 = async () => {
+  await ipAdresimiAl();
+  axios
+    .get("https://apis.ergineer.com/ipgeoapi/" + benimIP)
+    .then((resp) => {
+      return resp;
+    })
+    .then((veriler) => {
+      div2.appendChild(bayrakOlustur(veriler));
+    })
+    .catch((error) => {
+      console.error("Oops Hata Aldınız", error);
+    });
+};
+axios2();
