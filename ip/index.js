@@ -126,24 +126,22 @@ const bayrakOlustur = (bayrak) => {
   div1.appendChild(cardInfo1);
   return div1;
 };
-bayrakOlustur();
+bayrakOlustur(bayrak);
 // 4.adım
 const div2 = document.querySelector("div.cards");
 
 // 5.adım
 
-const axios2 = async () => {
+const axios1 = async () => {
   await ipAdresimiAl();
-  axios
-    .get("https://apis.ergineer.com/ipgeoapi/" + benimIP)
-    .then((resp) => {
-      return resp;
-    })
-    .then((veriler) => {
-      div2.appendChild(bayrakOlustur(veriler));
-    })
-    .catch((error) => {
-      console.error("Oops Hata Aldınız", error);
-    });
+  try {
+    const response = await axios.get(
+      "https://apis.ergineer.com/ipgeoapi/" + benimIP
+    );
+    const veriler = response.data;
+    div2.appendChild(bayrakOlustur(veriler));
+  } catch (error) {
+    console.error("Oops Hata Aldınız", error);
+  }
 };
-axios2();
+axios1();
