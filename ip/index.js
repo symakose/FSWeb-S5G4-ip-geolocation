@@ -1,26 +1,24 @@
 //axios import buraya gelecek
-
+import axios from "axios";
 var benimIP;
-
 
 // ------------ değiştirmeyin --------------
 // licensed to Ergineer 2022
 require("babel-core/register");
 require("babel-polyfill");
-async function ipAdresimiAl(){
-	await axios({
-		method: 'get',
-		url: 'https://apis.ergineer.com/ipadresim',
-	})
-	.then(function (response) {
-		return response.data
-	})
-	.then(function (a) {
-		benimIP=a
-	});
-}				
+async function ipAdresimiAl() {
+  await axios({
+    method: "get",
+    url: "https://apis.ergineer.com/ipadresim",
+  })
+    .then(function (response) {
+      return response.data;
+    })
+    .then(function (a) {
+      benimIP = a;
+    });
+}
 // ------------ değiştirmeyin --------------
-
 
 /*
 	ADIM 1: axios kullanarak, aşağıdaki URL'ye GET sorgusu atacağız
@@ -67,6 +65,32 @@ async function ipAdresimiAl(){
 	Örnek dinamik URL kullanımı: var url = "https://apis.ergineer.com/ipgeoapi/"+benimIP; 
 */
 
-
-
 //kodlar buraya gelecek
+// 1.adım
+
+const axios1 = () => {
+  axios
+    .get("https://apis.ergineer.com/ipgeoapi/88.230.20.21")
+    .then((response) => {
+      let data = response;
+      data
+        .map((veri) => {
+          cardOlustur(veri);
+        })
+        .forEach((veriler) => {});
+    });
+};
+axios1();
+//3.adım
+
+const bayrakOlustur = (bayrak) => {
+  const div1 = document.createElement("div");
+  div1.classList.add("card");
+
+  const img = document.createElement("img");
+  img.src = bayrak.data["ülkebayrağı"];
+  div1.appendChild("img");
+
+  const cardInfo1 = document.createElement("div");
+  cardInfo1.classList.add("card-info");
+};
